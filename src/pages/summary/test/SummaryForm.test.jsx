@@ -2,7 +2,8 @@ import { render, screen } from "@testing-library/react";
 import SummaryForm from "../SummaryForm";
 import userEvent from "@testing-library/user-event";
 
-it("Initial conditions", () => {
+it("Initial conditions", async () => {
+    const user = userEvent.setup();
     render(<SummaryForm />);
 
     const checkbox = screen.queryByRole("checkbox", {
@@ -14,18 +15,19 @@ it("Initial conditions", () => {
     expect(checkbox).not.toBeChecked();
     expect(confirmButton).toBeDisabled();
 
-    userEvent.click(checkbox);
+    await user.click(checkbox);
 
     expect(checkbox).toBeChecked();
     expect(confirmButton).toBeEnabled();
 
-    userEvent.click(checkbox);
+    await user.click(checkbox);
 
     expect(checkbox).not.toBeChecked();
     expect(confirmButton).toBeDisabled();
 });
 
-it("Enables confirm button when checkbox is clicked disables it when click again", () => {
+it("Enables confirm button when checkbox is clicked disables it when click again", async () => {
+    const user = userEvent.setup();
     render(<SummaryForm />);
 
     const checkbox = screen.queryByRole("checkbox", {
@@ -34,12 +36,12 @@ it("Enables confirm button when checkbox is clicked disables it when click again
     const confirmButton = screen.queryByRole("button", {
         name: /confirm order/i,
     });
-    userEvent.click(checkbox);
+    await user.click(checkbox);
 
     expect(checkbox).toBeChecked();
     expect(confirmButton).toBeEnabled();
 
-    userEvent.click(checkbox);
+    await user.click(checkbox);
 
     expect(checkbox).not.toBeChecked();
     expect(confirmButton).toBeDisabled();
