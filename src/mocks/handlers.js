@@ -1,8 +1,8 @@
-import { HttpResponse, http } from "msw";
+import { rest } from "msw";
 
 export const handlers = [
-    http.get("http://localhost:3030/scoops", () => {
-        return HttpResponse.json([
+    rest.get("http://localhost:3030/scoops", (req, res, ctx) => {
+        return ctx.json([
             {
                 name: "Chocolate",
                 imagePath: "/images/chocolate.png",
